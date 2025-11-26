@@ -717,7 +717,7 @@ if (!class_exists('archivist')) {
         private function display_by_loop($loop, $template = false)
         {
             global $post;
-
+            $archive_post = $post;
             $all_settings = $this->get_template_options();
 
             if (!$template) {
@@ -749,12 +749,12 @@ if (!class_exists('archivist')) {
 					<?php $this->display_pagination_controls($loop); ?>
 				<?php } ?>
 
-				<?php echo $settings['template_before']; ?>
+				<?php echo $this->render_element( $post, $settings[ 'template_before' ] ); ?>
 				<?php while ($loop->have_posts()) { ?>
 					<?php $loop->the_post(); ?>
 					<?php echo $this->render_element($post, $settings['template']); ?>
 				<?php } ?>
-				<?php echo $settings['template_after']; ?>
+				<?php $post = $archive_post; echo $this->render_element( $post, $settings[ 'template_after' ] ); ?>
 
 				<?php if ($this->pagination && in_array($this->controls, ['bottom', 'both'])) { ?>
 					<?php $this->display_pagination_controls($loop); ?>
